@@ -1,0 +1,12 @@
+{
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "plugins": ["react", "jsx-a11y", "import", "prettier"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "no-console": 0
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}

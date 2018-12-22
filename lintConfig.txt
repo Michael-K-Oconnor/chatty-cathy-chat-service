@@ -1,0 +1,13 @@
+For this config to work on VS Code, a few steps need to be taken
+1. Confirm ESLint, ESLint dependencies, and Priettier
+    are not install globaly. Run command below for each
+    library to check if it exists globaly
+      npm list -g eslint
+2. Install ESLint and Prettier extentions and enable them
+3. Set the following settings in UserSettings.json
+
+  "editor.formatOnSave": true,
+  "prettier.eslintIntegration": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.autoFixOnSave": true,
+  "javascript.format.enable": false,
