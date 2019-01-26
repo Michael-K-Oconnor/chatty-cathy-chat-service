@@ -4,7 +4,7 @@ exports.up = function migrateUp(knex, Promise) {
       table.increments('userId');
       table.string('username');
       table.string('handle');
-      table.string('numMessages');
+      table.integer('numMessages');
       table.string('profilePic');
       table.timestamps(false, true);
     }),

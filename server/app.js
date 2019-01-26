@@ -15,32 +15,38 @@ app.use(express.static('dist'));
 
 app.get('/messages', (req, res) => {
   console.log('Inside messages GET request');
-  db.select()
-    .from('messages')
-    .then(result => {
-      console.log(result);
-      res.status(200);
-      res.json(result);
-    })
-    .catch(err => {
-      console.log('Error querying db');
-      res.sendStatus(500);
-    });
+  if (req.query.userId) {
+    db.getMessagesByUser(req.query.userId)
+      .then(result => {
+        res.status(200);
+        res.json(result);
+      })
+      .catch(err => {
+        console.log('Error getting messages from db: ', err);
+        res.sendStatus(500);
+      });
+  } else if (req.query.roomId) {
+    db.getMessagesByRoom(req.query.roomId)
+      .then(result => {
+        res.status(200);
+        res.json(result);
+      })
+      .catch(err => {
+        console.log('Error getting messages from db: ', err);
+        res.sendStatus(500);
+      });
+  }
 });
 
 app.post('/messages', (req, res) => {
   console.log('Inside messages POST request');
-  console.log(req.body);
-  const entry = Object.assign(req.body);
-  console.log(entry);
-  db('messages')
-    .insert(entry)
-    .then(result => {
+  db.createMessage(req.body)
+    .then(() => {
       console.log('POST request successful');
       res.sendStatus(200);
     })
     .catch(err => {
-      console.log('Error inserting into database');
+      console.log('Error creating new message: ', err);
       res.send(500);
     });
 });
@@ -75,32 +81,30 @@ app.post('/chatrooms', (req, res) => {
     });
 });
 
-app.get('/users', (req, res) => {
+app.get('/api/users/:userId', (req, res) => {
   console.log('Inside users GET request');
-  db.select()
-    .from('users')
+  db.getUserData(req.params.userId)
     .then(result => {
       console.log(result);
       res.status(200);
       res.json(result);
     })
     .catch(err => {
-      console.log('Error querying db');
+      console.log('Error getting user data: ', err);
       res.sendStatus(500);
     });
 });
 
-app.post('/users', (req, res) => {
+app.post('/api/users', (req, res) => {
   console.log('Inside users POST request');
   console.log(req.body);
-  db('users')
-    .insert(req.body)
+  db.createUser(req.body)
     .then(result => {
-      console.log('POST request successful');
+      console.log('POST request successful', result);
       res.sendStatus(200);
     })
     .catch(err => {
-      console.log('Error inserting into database');
+      console.log('Error creating user: ', err);
       res.send(500);
     });
 });
