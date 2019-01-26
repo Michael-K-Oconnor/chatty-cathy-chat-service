@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS chattycathy;
+-- DROP DATABASE IF EXISTS chattycathy;
 
-CREATE DATABASE chattycathy;
+-- CREATE DATABASE chattycathy;
 
-\c chattycathy
+-- \c chattycathy
 
 -- CREATE OR REPLACE FUNCTION trigger_set_timestamp()
 -- RETURNS TRIGGER AS $$
