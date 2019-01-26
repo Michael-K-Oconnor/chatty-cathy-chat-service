@@ -30,7 +30,6 @@ app.post('/messages', (req, res) => {
   console.log('Inside messages POST request');
   console.log(req.body);
   const entry = Object.assign(req.body);
-  //  entry.created_at = '2018-12-25 18:17:15.403787-06';
   console.log(entry);
   db('messages')
     .insert(entry)
