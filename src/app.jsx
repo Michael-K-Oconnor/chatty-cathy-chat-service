@@ -6,26 +6,25 @@ import MessageFeed from './messages/messageFeed';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.onRoomSelect = this.onRoomSelect.bind(this);
     this.state = {
       roomId: 1,
       userId: 1
     };
   }
 
-  onRoomSelect(e) {
-    console.log(e.target);
+  handleRoomSelect = e => {
+    console.log(e.target.value);
     this.setState({
       roomId: e.target.value
     });
-  }
+  };
 
   render() {
     const { userId, roomId } = this.state;
     return (
       <div>
         <UserProfile />
-        <ChatroomSelect onRoomSelect={this.onRoomSelect} />
+        <ChatroomSelect handleRoomSelect={this.handleRoomSelect} />
         <MessageFeed roomId={roomId} userId={userId} />
       </div>
     );

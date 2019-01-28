@@ -15,6 +15,12 @@ class MessageFeed extends React.Component {
     this.getMessages();
   };
 
+  componentDidUpdate = prevProps => {
+    if (this.props !== prevProps) {
+      this.getMessages();
+    }
+  };
+
   getMessages = () => {
     const { roomId } = this.props;
     axios

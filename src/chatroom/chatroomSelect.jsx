@@ -10,9 +10,9 @@ class ChatroomSelect extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.getRooms();
-  }
+  };
 
   getRooms = () => {
     axios.get(`${window.location.origin}/api/chatrooms`).then(result => {
@@ -33,10 +33,11 @@ class ChatroomSelect extends React.Component {
 
   render() {
     const { rooms } = this.state;
+    const { handleRoomSelect } = this.props;
     return (
       <div>
         <ChatroomInput submitRoom={this.submitRoom} />
-        <select>
+        <select onChange={handleRoomSelect}>
           {rooms.map(room => (
             <option key={room.roomId} value={room.roomId}>
               {room.roomname}
