@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import MessageInput from './messageInput';
 import Message from './message';
@@ -60,3 +61,8 @@ class MessageFeed extends React.Component {
 }
 
 export default MessageFeed;
+
+MessageFeed.propTypes = {
+  roomId: PropTypes.number,
+  userId: PropTypes.number
+};

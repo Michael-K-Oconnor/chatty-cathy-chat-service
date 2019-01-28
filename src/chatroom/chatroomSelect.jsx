@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import ChatroomInput from './chatroomInput';
 
@@ -50,3 +51,7 @@ class ChatroomSelect extends React.Component {
 }
 
 export default ChatroomSelect;
+
+ChatroomSelect.propTypes = {
+  handleRoomSelect: PropTypes.func
+};

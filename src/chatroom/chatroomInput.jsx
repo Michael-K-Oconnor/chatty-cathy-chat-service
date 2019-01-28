@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class ChatroomInput extends React.Component {
   constructor(props) {
@@ -44,3 +45,7 @@ class ChatroomInput extends React.Component {
 }
 
 export default ChatroomInput;
+
+ChatroomInput.propTypes = {
+  submitRoom: PropTypes.func
+};
