@@ -23,7 +23,7 @@ class App extends React.Component {
     const { userId, roomId } = this.state;
     return (
       <div>
-        <UserProfile />
+        <UserProfile userId={userId} />
         <ChatroomSelect handleRoomSelect={this.handleRoomSelect} />
         <MessageFeed roomId={roomId} userId={userId} />
       </div>

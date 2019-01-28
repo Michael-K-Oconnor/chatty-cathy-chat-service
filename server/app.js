@@ -72,6 +72,7 @@ app.post('/api/chatrooms', (req, res) => {
 });
 
 app.get('/api/users/:userId', (req, res) => {
+  console.log(req.params, req.query);
   db.getUserData(req.params.userId)
     .then(result => {
       res.status(200);
