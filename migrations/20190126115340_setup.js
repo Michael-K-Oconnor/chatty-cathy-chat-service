@@ -2,8 +2,8 @@ exports.up = function migrateUp(knex, Promise) {
   return Promise.all([
     knex.schema.createTable('users', table => {
       table.increments('userId');
-      table.string('username');
-      table.string('handle');
+      table.string('username').unique();
+      table.string('handle').unique();
       table.integer('numMessages');
       table.string('profilePic');
       table.timestamps(false, true);

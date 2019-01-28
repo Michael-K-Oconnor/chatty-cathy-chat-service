@@ -8,6 +8,10 @@ const db = require('knex')({
   }
 });
 
+// ///////////////////////////////
+// ///  USERS QUERIES  ///////////
+// ///////////////////////////////
+
 const getUserData = userId =>
   db
     .select()
@@ -19,6 +23,10 @@ const createUser = ({ username, handle, numMessages, profilePic }) =>
     .insert({ username, handle, numMessages, profilePic })
     .into('users')
     .returning('userId');
+
+// ///////////////////////////////
+// ///  MESSAGES QUERIES  ////////
+// ///////////////////////////////
 
 const getMessagesByRoom = roomId =>
   db
@@ -35,10 +43,21 @@ const getMessagesByUser = userId =>
 const createMessage = ({ message, userId, roomId }) =>
   db.insert({ message, userId, roomId }).into('messages');
 
+// ///////////////////////////////
+// ///////  ROOMS QUERIES  ///////
+// ///////////////////////////////
+
+const getChatrooms = () => db.select().from('chatrooms');
+
+const createChatroom = ({ roomname }) =>
+  db.insert({ roomname }).into('chatrooms');
+
 module.exports = {
   getUserData,
   createUser,
   getMessagesByRoom,
   getMessagesByUser,
-  createMessage
+  createMessage,
+  getChatrooms,
+  createChatroom
 };

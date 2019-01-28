@@ -6,34 +6,39 @@ import Message from './message';
 class MessageFeed extends React.Component {
   constructor(props) {
     super(props);
-    this.submitMessage = this.submitMessage.bind(this);
     this.state = {
       messages: []
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.getMessages();
-  }
+  };
 
-  getMessages() {
-    axios.get('http://localhost:3000/messages').then(result => {
-      this.setState({
-        messages: result.data
+  getMessages = () => {
+    const { roomId } = this.props;
+    axios
+      .get(`${window.location.origin}/api/messages`, {
+        params: { roomId }
+      })
+      .then(result => {
+        this.setState({
+          messages: result.data
+        });
       });
-    });
-  }
+  };
 
-  submitMessage(message) {
+  submitMessage = message => {
+    const { userId, roomId } = this.props;
     const postBody = {
       message,
-      user_id: 1,
-      room_id: 1
+      userId,
+      roomId
     };
-    axios.post('http://localhost:3000/messages', postBody).then(result => {
+    axios.post(`${window.location.origin}/api/messages`, postBody).then(() => {
       this.getMessages();
     });
-  }
+  };
 
   render() {
     const { messages } = this.state;
@@ -41,7 +46,7 @@ class MessageFeed extends React.Component {
       <div>
         <MessageInput submitMessage={this.submitMessage} />
         {messages.map(message => (
-          <Message message={message} key={message.id} />
+          <Message message={message} key={message.messageId} />
         ))}
       </div>
     );
