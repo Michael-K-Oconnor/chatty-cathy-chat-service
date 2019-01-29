@@ -1,13 +1,13 @@
 {
-  "name": "boiler-plate",
+  "name": "chatty-cathy",
   "version": "1.0.0",
-  "description": "Boiler plate for React/node apps",
+  "description": "Chat App",
   "main": "server.js",
   "scripts": {
     "webpack": "webpack -d --watch",
-    "start": "nodemon server/server.js",
+    "start": "node server/server.js",
     "dev-server": "webpack-dev-server --mode development --open",
-    "server": "node server/server.js",
+    "server": "nodemon server/server.js",
     "build": "webpack --mode production"
   },
   "keywords": [],
