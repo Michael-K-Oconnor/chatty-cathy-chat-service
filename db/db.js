@@ -1,28 +1,4 @@
-const dbConn = require('knex');
-
-let db;
-
-if (process.env.NODE_ENV === 'test') {
-  db = dbConn({
-    client: 'pg',
-    connection: {
-      database: 'chattycathy',
-      host: 'localhost',
-      user: 'student',
-      password: 'student'
-    }
-  });
-} else {
-  db = dbConn({
-    client: 'pg',
-    connection: {
-      database: process.env.DB_NAME,
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS
-    }
-  });
-}
+const db = require('./knex');
 
 // ///////////////////////////////
 // ///  USERS QUERIES  ///////////
@@ -79,8 +55,11 @@ const getChatrooms = () => db('chatrooms').select();
 
 const createChatroom = ({ roomname }) => db('chatrooms').insert({ roomname });
 
+// ///////////////////////////////
+// ///////     EXPORTS    ////////
+// ///////////////////////////////
+
 module.exports = {
-  db,
   getUserData,
   createUser,
   getMessagesByRoom,

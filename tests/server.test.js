@@ -1,6 +1,6 @@
 require('@babel/polyfill');
 const request = require('supertest');
-const knex = require('knex')(require('../knexfile').test);
+const knex = require('../db/knex');
 const app = require('../server/app');
 const db = require('../db/db.js');
 
@@ -19,7 +19,6 @@ describe('Testing Server', () => {
   });
 
   afterAll(async () => {
-    await db.db.destroy();
     await knex.destroy();
   });
 
