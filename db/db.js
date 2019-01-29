@@ -57,12 +57,14 @@ const getMessagesByRoom = roomId =>
 const getMessagesByUser = userId =>
   db('messages')
     .join('users', 'messages.userId', 'users.userId')
+    .join('chatrooms', 'messages.roomId', 'chatrooms.roomId')
     .select(
       'messages.message',
       'messages.created_at',
       'messages.updated_at',
       'users.username',
-      'users.handle'
+      'users.handle',
+      'chatrooms.roomname'
     )
     .where('messages.userId', userId);
 
