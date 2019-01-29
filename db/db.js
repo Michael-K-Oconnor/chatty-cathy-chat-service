@@ -1,27 +1,41 @@
-const db = require('knex')({
-  client: 'pg',
-  connection: {
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS
-  }
-});
+const dbConn = require('knex');
+
+let db;
+
+if (process.env.NODE_ENV === 'test') {
+  db = dbConn({
+    client: 'pg',
+    connection: {
+      database: 'chattycathy',
+      host: 'localhost',
+      user: 'student',
+      password: 'student'
+    }
+  });
+} else {
+  db = dbConn({
+    client: 'pg',
+    connection: {
+      database: process.env.DB_NAME,
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS
+    }
+  });
+}
 
 // ///////////////////////////////
 // ///  USERS QUERIES  ///////////
 // ///////////////////////////////
 
 const getUserData = userId =>
-  db
+  db('users')
     .select()
-    .from('users')
     .where({ userId });
 
 const createUser = ({ username, handle, numMessages, profilePic }) =>
-  db
+  db('users')
     .insert({ username, handle, numMessages, profilePic })
-    .into('users')
     .returning('userId');
 
 // ///////////////////////////////
@@ -29,30 +43,42 @@ const createUser = ({ username, handle, numMessages, profilePic }) =>
 // ///////////////////////////////
 
 const getMessagesByRoom = roomId =>
-  db
-    .select()
-    .from('messages')
+  db('messages')
+    .join('users', 'messages.userId', 'users.userId')
+    .select(
+      'messages.message',
+      'messages.created_at',
+      'messages.updated_at',
+      'users.username',
+      'users.handle'
+    )
     .where({ roomId });
 
 const getMessagesByUser = userId =>
-  db
-    .select()
-    .from('messages')
-    .where({ userId });
+  db('messages')
+    .join('users', 'messages.userId', 'users.userId')
+    .select(
+      'messages.message',
+      'messages.created_at',
+      'messages.updated_at',
+      'users.username',
+      'users.handle'
+    )
+    .where('messages.userId', userId);
 
 const createMessage = ({ message, userId, roomId }) =>
-  db.insert({ message, userId, roomId }).into('messages');
+  db('messages').insert({ message, userId, roomId });
 
 // ///////////////////////////////
 // ///////  ROOMS QUERIES  ///////
 // ///////////////////////////////
 
-const getChatrooms = () => db.select().from('chatrooms');
+const getChatrooms = () => db('chatrooms').select();
 
-const createChatroom = ({ roomname }) =>
-  db.insert({ roomname }).into('chatrooms');
+const createChatroom = ({ roomname }) => db('chatrooms').insert({ roomname });
 
 module.exports = {
+  db,
   getUserData,
   createUser,
   getMessagesByRoom,

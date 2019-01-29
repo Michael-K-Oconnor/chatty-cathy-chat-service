@@ -17,8 +17,5 @@ exports.up = function migrateUp(knex, Promise) {
 };
 
 exports.down = function migrateDown(knex, Promise) {
-  return Promise.all([
-    knex.schema.dropTable('users'),
-    knex.schema.dropTable('chatrooms')
-  ]);
+  return Promise.all([knex.schema.dropTable('users'), knex.schema.dropTable('chatrooms')]);
 };

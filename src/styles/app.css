@@ -1,4 +1,40 @@
-h1 {
-  background-color: #99cc00;
+body {
+  background-color: rgb(61, 240, 240);
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 200px 200px auto;
+}
+
+.UserProfile {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.ChatroomSelect {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.MessageFeed {
+  grid-column: 2;
+  grid-row: 1/4;
+}
+
+.profileImg {
+  border-radius: 20px;
+  float: left;
+}
+
+.userProfile {
+  padding: 15px;
+}
+
+.message {
+  background-color: rgb(168, 179, 190);
+  border-radius: 10px;
+  margin: 10px;
   padding: 10px;
 }

@@ -9,7 +9,8 @@ class Message extends React.Component {
   render() {
     const { message } = this.props;
     return (
-      <div>
+      <div className="message">
+        <h2>{message.user}</h2>
         <h1>{message.message}</h1>
       </div>
     );

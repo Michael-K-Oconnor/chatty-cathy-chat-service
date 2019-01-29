@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/app.css';
 import axios from 'axios';
 
 class UserProfile extends React.Component {
@@ -22,8 +23,8 @@ class UserProfile extends React.Component {
   render() {
     const { username, handle, numMessages, profilePic } = this.state;
     return (
-      <div>
-        <img src={profilePic} alt={username} />
+      <div className="userProfile">
+        <img className="profileImg" src={profilePic} alt={username} />
         <div>{username}</div>
         <div>{handle}</div>
         <div>Number of posts = {numMessages}</div>
