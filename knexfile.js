@@ -4,10 +4,14 @@ module.exports = {
   development: {
     client: 'postgresql',
     connection: {
-      host: 'localhost',
+      // database: 'chattycathytest',
+      // user: process.env.DB_USER,
+      // password: process.env.DB_PASS,
+      // host: process.env.DB_HOST
+      database: 'chattycathy',
       user: 'student',
       password: 'student',
-      database: 'chattycathy'
+      host: 'localhost'
     },
     pool: {
       min: 2,
@@ -23,10 +27,10 @@ module.exports = {
   test: {
     client: 'postgresql',
     connection: {
-      host: 'localhost',
-      user: 'student',
-      password: 'student',
-      database: 'chattycathy'
+      database: 'chattycathytest',
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      host: process.env.DB_HOST
     },
     pool: {
       min: 2,

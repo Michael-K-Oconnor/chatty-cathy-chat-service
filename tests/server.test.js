@@ -2,24 +2,23 @@ require('@babel/polyfill');
 const request = require('supertest');
 const knex = require('../db/knex');
 const app = require('../server/app');
-const db = require('../db/db.js');
+// const db = require('../db/db.js');
 
 describe('Testing Server', () => {
-  beforeAll(async () => {
-    await knex.migrate.rollback();
+  beforeEach(async done => {
+    try {
+      await knex.migrate.rollback();
+      await knex.migrate.latest();
+      await knex.seed.run();
+      done();
+    } catch (err) {
+      console.log(err);
+    }
   });
 
-  beforeEach(async () => {
-    await knex.migrate.latest();
-    await knex.seed.run();
-  });
-
-  afterEach(async () => {
-    await knex.migrate.rollback();
-  });
-
-  afterAll(async () => {
+  afterAll(async done => {
     await knex.destroy();
+    done();
   });
 
   test('It should handle GET  requests to users table', async done => {
