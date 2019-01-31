@@ -4,6 +4,7 @@ node_js:
 
 env:
   - NODE_ENV=test
+  
   branches:
     only:
       - staging
