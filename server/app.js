@@ -69,7 +69,7 @@ app.post(
 );
 
 app.use((error, req, res, next) => {
-  console.log(`Err with ${req.url} : \n`, error.message);
+  console.log(`Err with ${req.url}: \n`, error.message);
   res.sendStatus(500);
   next();
 });
