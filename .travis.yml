@@ -1,7 +1,14 @@
-language: node_js
-node_js:
-  - 'node'
+sudo: required
+services:
+  - docker
 
 branches:
   only:
-    - staging
+    - master
+
+script:
+  - docker build --tag michaelkoconnor/chatty-cathy .
+  - docker run michaelkoconnor/chatty-cathy
+
+after_script:
+  - docker images
