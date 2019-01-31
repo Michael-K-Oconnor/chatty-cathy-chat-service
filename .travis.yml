@@ -9,6 +9,7 @@ branches:
 script:
   - docker build --tag michaelkoconnor/chatty-cathy .
   - docker run michaelkoconnor/chatty-cathy
+  - docker stop michaelkoconnor/chatty-cathy
 
 after_script:
   - docker images
