@@ -8,7 +8,8 @@ branches:
 
 script:
   - docker build --tag michaelkoconnor/chatty-cathy .
-  - docker run -d michaelkoconnor/chatty-cathy
+  - docker run -d -p 4000:4000 michaelkoconnor/chatty-cathy
+  - docker ps
   - docker exec michaelkoconnor/chatty-cathy npm test
 
 after_script:
