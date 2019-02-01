@@ -20,3 +20,12 @@ script:
 
 after_script:
   - docker images
+
+before_deploy:
+  - docker login -u "michaelkoconnor" -p "${DOCKERHUB_PASS}"
+
+deploy:
+  provider: script
+  script: docker push michaelkoconnor/chatty-cathy
+  on:
+    branch: master
