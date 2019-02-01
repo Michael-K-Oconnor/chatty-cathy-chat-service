@@ -8,9 +8,9 @@ branches:
 
 script:
   - docker build --tag michaelkoconnor/chatty-cathy .
-  - docker run michaelkoconnor/chatty-cathy -d
+  - docker run -d michaelkoconnor/chatty-cathy
   # - docker exec -it $(docker ps -aqf "name=chattycathy_chatty-cathy_1") /bin/sh
-  - docker stop $(docker ps -aqf "name=chattycathy_chatty-cathy_1")
+  - docker stop $(docker ps -aqf "name=michaelkoconnor/chatty-cathy")
   # - docker ps | grep -q michaelkoconnor/chatty-cathy
 
 after_script:
