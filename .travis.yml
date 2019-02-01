@@ -9,6 +9,7 @@ branches:
 script:
   - docker build --tag michaelkoconnor/chatty-cathy .
   - docker run -d michaelkoconnor/chatty-cathy
+  - echo $(docker ps -aqf "name=michaelkoconnor/chatty-cathy")
   - docker exec $(docker ps -aqf "name=michaelkoconnor/chatty-cathy") npm test
 
 after_script:
