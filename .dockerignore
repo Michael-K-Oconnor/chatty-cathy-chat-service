@@ -11,4 +11,5 @@ docker-compose*
 .eslint*
 .travis.yml
 .DS_Store
+Makefile
 README.md
