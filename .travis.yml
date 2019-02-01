@@ -6,8 +6,13 @@ branches:
   only:
     - master
 
+before_script:
+  - docker pull michaelkoconnor/chatty-cathy || true
+
 script:
-  - docker build --tag michaelkoconnor/chatty-cathy .
+  - |
+    docker build --pull --cache-from michaelkoconnor/chatty-cathy \
+    --tag michaelkoconnor/chatty-cathy .
   - |
     docker run -d -p 4000:4000 \
     -e NODE_ENV=test \
