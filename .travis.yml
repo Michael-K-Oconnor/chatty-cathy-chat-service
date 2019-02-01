@@ -8,9 +8,9 @@ branches:
 
 script:
   - docker build --tag michaelkoconnor/chatty-cathy .
-  - docker run -d -p 4000:4000 michaelkoconnor/chatty-cathy
+  - docker run -d -p 4000:4000 --name=chatty-cathy michaelkoconnor/chatty-cathy
   - docker ps
-  - docker exec michaelkoconnor/chatty-cathy npm test
+  - docker exec chatty-cathy npm test
 
 after_script:
   - docker images
