@@ -8,7 +8,10 @@
     "webpack": "webpack -d --watch",
     "server": "nodemon server/server.js",
     "build": "webpack --mode production",
-    "test": "jest"
+    "test": "jest",
+    "knex-rollback": "knex --knexfile ./db/knexfile.js migrate:rollback",
+    "knex-migrate": "knex --knexfile ./db/knexfile.js migrate:latest",
+    "knex-seed": "knex --knexfile ./db/knexfile.js seed:run"
   },
   "keywords": [],
   "author": "Michael O'Connor",
