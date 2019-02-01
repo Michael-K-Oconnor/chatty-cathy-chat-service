@@ -8,7 +8,7 @@ branches:
 
 script:
   - docker build --tag michaelkoconnor/chatty-cathy .
-  - docker run -d -p 4000:4000 --name=chatty-cathy michaelkoconnor/chatty-cathy
+  - docker run -d -p 4000:4000 -e NODE_ENV='test' --name=chatty-cathy michaelkoconnor/chatty-cathy
   - docker ps
   - docker exec chatty-cathy npm test
 
