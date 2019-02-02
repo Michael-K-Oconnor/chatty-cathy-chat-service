@@ -6,3 +6,6 @@ build:
 
 test:
 	docker-compose up --build test
+
+gpr:
+	gpr
