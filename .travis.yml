@@ -5,7 +5,6 @@ services:
 branches:
   only:
     - master
-    - staging
 
 before_script:
   - docker pull michaelkoconnor/chatty-cathy || true
