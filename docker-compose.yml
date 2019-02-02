@@ -10,3 +10,13 @@ services:
       - 4000:4000
     env_file: .env
     restart: unless-stopped
+
+  test:
+    image: michaelkoconnor/chatty-cathy
+    build: .
+    environment:
+      NODE_ENV: test
+    command: npm test
+    ports:
+      - 4000:4000
+    env_file: .env

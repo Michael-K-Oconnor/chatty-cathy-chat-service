@@ -1,4 +1,5 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 module.exports = {
   development: {
@@ -14,10 +15,10 @@ module.exports = {
       max: 10
     },
     migrations: {
-      directory: './db/migrations'
+      directory: path.join(__dirname, './migrations')
     },
     seeds: {
-      directory: './db/seeds'
+      directory: path.join(__dirname, './migrations')
     }
   },
   test: {
@@ -33,10 +34,10 @@ module.exports = {
       max: 10
     },
     migrations: {
-      directory: './db/migrations'
+      directory: path.join(__dirname, './migrations')
     },
     seeds: {
-      directory: './db/seeds'
+      directory: path.join(__dirname, './seeds')
     }
   },
   production: {
@@ -52,10 +53,10 @@ module.exports = {
       max: 10
     },
     migrations: {
-      directory: './db/migrations'
+      directory: './migrations'
     },
     seeds: {
-      directory: './db/seeds'
+      directory: './seeds'
     }
   }
 };
