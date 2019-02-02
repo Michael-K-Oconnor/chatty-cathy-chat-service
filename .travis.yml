@@ -11,8 +11,16 @@ before_script:
 
 script:
   - |
+    PACKAGE_VERSION=$(cat package.json \
+    grep version \
+    head -1 \
+    awk -F: '{ print $2 }' \
+    sed 's/[",]//g' \
+    tr -d '[[:space:]]')
+  - echo $PACKAGE_VERSION
+  - |
     docker build --pull --cache-from michaelkoconnor/chatty-cathy \
-    --tag michaelkoconnor/chatty-cathy:$(git rev-parse --short HEAD) .
+    --tag michaelkoconnor/chatty-cathy:$PACKAGE_VERSION .
   - |
     docker run -d -p 4000:4000 \
     -e NODE_ENV=test \
@@ -34,3 +42,16 @@ deploy:
   script: docker push michaelkoconnor/chatty-cathy
   on:
     branch: master
+
+
+    PACKAGE_VERSION=$(cat package.json \
+  | grep version \
+  | head -1 \
+  | awk -F: '{ print $2 }' \
+  | sed 's/[",]//g' \
+  | tr -d '[[:space:]]')
+
+echo $PACKAGE_VERSION
+
+
+echo $PACKAGE_VERSION
