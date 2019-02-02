@@ -1,0 +1,69 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: chatty-cathy-service
+spec:
+  selector:
+    app: chatty-cathy
+  ports:
+    - protocol: 'TCP'
+      # Port accessible inside cluster
+      port: 4000
+      # Port to forward to inside the pod
+      targetPort: 4000
+      # Port accessible outside cluster
+      nodePort: 30002
+    # - name: http
+    #   protocol: TCP
+    #   port: 80
+    #   targetPort: 9376
+    # - name: https
+    #   protocol: TCP
+    #   port: 443
+    #   targetPort: 9377
+  type: LoadBalancer
+
+---
+apiVersion: extensions/v1beta1 #apps/v1
+kind: Deployment
+metadata:
+  name: chatty-cathy-deployment
+  labels:
+    app: chatty-cathy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: chatty-cathy-pod
+      labels:
+        app: chatty-cathy
+    spec:
+      containers:
+        - name: chatty-cathy
+          image: michaelkoconnor/chatty-cathy
+          ports:
+            - containerPort: 4000
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: chatty-cathy-secret
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: chatty-cathy-secret
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: chatty-cathy-secret
+                  key: DB_PASS
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: chatty-cathy-secret
+                  key: DB_HOST

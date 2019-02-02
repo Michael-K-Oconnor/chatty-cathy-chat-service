@@ -14,6 +14,10 @@
     "knex-seed": "knex --knexfile ./db/knexfile.js seed:run"
   },
   "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Michael-K-Oconnor/Chatty-Cathy.git"
+  },
   "author": "Michael O'Connor",
   "license": "ISC",
   "prettier": {
