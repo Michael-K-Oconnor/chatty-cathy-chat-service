@@ -9,8 +9,7 @@ branches:
 before_script:
   - docker pull michaelkoconnor/chatty-cathy || true
 
-script:
-  - bash scripts/travisBuild.sh
+script: bash scripts/travisBuild.sh
   # - |
   #   PACKAGE_VERSION=$(cat package.json \
   #   grep version \
