@@ -16,9 +16,4 @@ CURR_VERSION=$(cat package.json \
 echo $PREV_VERSION
 echo $CURR_VERSION
 
-if [ $PREV_VERSION != $CURR_VERSION ]
-  then
-    echo "success"
-else
-  echo "fail"
-fi
+[ $PREV_VERSION != $CURR_VERSION ]
