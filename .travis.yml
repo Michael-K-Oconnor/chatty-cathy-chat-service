@@ -28,6 +28,6 @@ deploy:
   script:
     - docker push michaelkoconnor/chatty-cathy
     # - kubectl rolling-update deployments/chatty-cathy --image=michaelkoconnor/chatty-cathy:$CURR_VERSION
-    - kubectl set image deployments/chatty-cathy chatty-cathy=michaelkoconnor/chatty-cathy:$CURR_VERSION
+    - kubectl set image deployments/chatty-cathy chatty-cathy=michaelkoconnor/chatty-cathy:latest
   on:
     branch: master
