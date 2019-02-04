@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 PACKAGE_VERSION=$(cat package.json \
   | grep version \
