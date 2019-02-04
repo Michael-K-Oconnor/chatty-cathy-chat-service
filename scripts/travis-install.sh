@@ -13,9 +13,3 @@ kubectl config set clusters.ChattyCathyMain.certificate-authority-data "$CERTIFI
 kubectl config set clusters.ChattyCathyMain.server "$CLUSTER_SERVER"
 kubectl config set users.kubernetes-kube-group-e1ea0b-admin.client-certificate-data "$CLIENT_CERTIFICATE_DATA"
 kubectl config set users.kubernetes-kube-group-e1ea0b-admin.client-key-data "$CLIENT_KEY_DATA"
-
-
-ls ${HOME}/.kube
-ls ${HOME}/.kube/config
-
-cat ${HOME}/.kube/config

@@ -9,6 +9,9 @@ branches:
 
 before_script:
   - sh scripts/travis-install.sh
+  - ls ${HOME}/.kube
+  - ls ${HOME}/.kube/config
+  - cat ${HOME}/.kube/config
   - docker pull michaelkoconnor/chatty-cathy || true
 
 script:
