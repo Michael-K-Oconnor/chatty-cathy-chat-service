@@ -1,0 +1,36 @@
+apiVersion: v1
+clusters:
+  - cluster:
+      certificate-authority-data:
+      server:
+    name: 'ChattyCathyMain'
+contexts:
+  - context:
+      cluster: 'ChattyCathyMain'
+      user: 'clusterUser_K8-CC_ChattyCathyMain'
+    name: 'ChattyCathyMain'
+current-context: 'ChattyCathyMain'
+kind: Config
+users:
+  - name: 'clusterUser_K8-CC_ChattyCathyMain'
+    user:
+      client-certificate-data:
+      client-key-data:
+# apiVersion: v1
+# clusters:
+# - cluster:
+#     certificate-authority-data:
+#     server: https://kubernetes-group-xxxxx.westus.cloudapp.azure.com
+#   name: "kubernetes-group-xxxxx"
+# contexts:
+# - context:
+#     cluster: "kubernetes-group-xxxxx"
+#     user: "kubernetes-group-xxxxx-admin"
+#   name: "kubernetes-group-xxxxx"
+# current-context: "kubernetes-group-xxxxx"
+# kind: Config
+# users:
+# - name: "kubernetes-group-xxxxx-admin"
+#   user:
+#     client-certificate-data:
+#     client-key-data:
