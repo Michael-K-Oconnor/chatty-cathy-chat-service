@@ -8,6 +8,7 @@ branches:
     - development
 
 before_script:
+  - sh scripts/travis-check-version.sh
   - sh scripts/travis-install.sh
   - ls ${HOME}/.kube
   - ls ${HOME}/.kube/config
