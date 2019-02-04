@@ -5,7 +5,7 @@ services:
 branches:
   only:
     - master
-    - development
+    # - development
 
 before_script:
   # - sh scripts/travis-check-version.sh
