@@ -1,6 +1,6 @@
 {
   "name": "chatty-cathy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chat App",
   "main": "server.js",
   "scripts": {
