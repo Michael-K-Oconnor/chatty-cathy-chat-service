@@ -5,11 +5,12 @@ services:
 branches:
   only:
     - master
-    # - development
+    - development
 
 before_script:
   # - sh scripts/travis-check-version.sh
   - sh scripts/travis-install-kubectl.sh
+  - kubectl get deployments
   - docker pull michaelkoconnor/chatty-cathy || true
 
 script:
