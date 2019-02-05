@@ -10,7 +10,7 @@ branches:
 before_script:
   # - sh scripts/travis-check-version.sh
   - sh scripts/travis-install-kubectl.sh
-  - kubectl cluster-info
+  - kubectl cluster-info dump
   - kubectl get deployments
   - docker pull michaelkoconnor/chatty-cathy || true
 
