@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 PREV_VERSION=$(curl https://raw.githubusercontent.com/Michael-K-Oconnor/Chatty-Cathy/master/package.json \
   | grep version \
   | awk -F: '{ print $2 }' \
