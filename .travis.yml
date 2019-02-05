@@ -8,13 +8,13 @@ branches:
     # - development
 
 before_script:
-  - [ $TRAVIS_PULL_REQUEST == true ] && sh scripts/travis-check-version.sh
+  - sh scripts/travis-check-version.sh
   - docker pull michaelkoconnor/chatty-cathy || true
 
 script:
   - sh scripts/travis-build.sh
 
-after_script:
+# after_script:
 
 before_deploy:
   - sh scripts/travis-install-kubectl.sh
