@@ -7,5 +7,9 @@ build:
 test:
 	docker-compose up --build test
 
+travis-lint:
+	travis lint ./.travis.yml
+
 gpr:
 	gpr
+

@@ -5,32 +5,29 @@ services:
 branches:
   only:
     - master
+    # - development
 
 before_script:
+  # - sh scripts/travis-check-version.sh
+  - sh scripts/travis-install-kubectl.sh
+  # - cat ${HOME}/.kube/config
   - docker pull michaelkoconnor/chatty-cathy || true
 
 script:
-  - |
-    docker build --pull --cache-from michaelkoconnor/chatty-cathy \
-    --tag michaelkoconnor/chatty-cathy:$(git rev-parse --short HEAD) .
-  - |
-    docker run -d -p 4000:4000 \
-    -e NODE_ENV=test \
-    -e DB_HOST=${DB_HOST} \
-    -e DB_PASS=${DB_PASS} \
-    -e DB_USER=${DB_USER} \
-    --name=chatty-cathy michaelkoconnor/chatty-cathy
-  - docker ps
-  - docker exec chatty-cathy npm test
+  - sh scripts/travis-build.sh
 
 after_script:
-  - docker images
+  # - docker images
+  # kubectl config set clusters.ChattyCathyMain.certificate-authority-data "$CERTIFICATE_AUTHORITY_DATA"
 
 before_deploy:
   - docker login -u "michaelkoconnor" -p "${DOCKERHUB_PASS}"
 
 deploy:
   provider: script
-  script: docker push michaelkoconnor/chatty-cathy
+  script:
+    - docker push michaelkoconnor/chatty-cathy
+    # - kubectl rolling-update deployments/chatty-cathy --image=michaelkoconnor/chatty-cathy:$CURR_VERSION
+    - kubectl set image deployments/chatty-cathy chatty-cathy=michaelkoconnor/chatty-cathy:latest
   on:
     branch: master
