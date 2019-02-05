@@ -8,7 +8,8 @@ branches:
     # - development
 
 before_script:
-  - sh scripts/travis-check-version.sh
+  - printenv
+  # - sh scripts/travis-check-version.sh
   - sh scripts/travis-install-kubectl.sh
   - docker pull michaelkoconnor/chatty-cathy || true
 
