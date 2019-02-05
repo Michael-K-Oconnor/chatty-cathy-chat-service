@@ -10,8 +10,6 @@ git clone https://michael-k-oconnor:$GH_PASS@github.com/michael-k-oconnor/chatty
 mkdir ${HOME}/.kube
 mv ./chatty-cathy-k8-config/* ${HOME}/.kube
 
-ls ${HOME}/.kube
-
 
 
 
