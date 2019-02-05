@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 PREV_VERSION=$(curl https://raw.githubusercontent.com/Michael-K-Oconnor/Chatty-Cathy/master/package.json \
   | grep version \
   | awk -F: '{ print $2 }' \
@@ -16,4 +17,7 @@ CURR_VERSION=$(cat package.json \
 echo $PREV_VERSION
 echo $CURR_VERSION
 
-[ $PREV_VERSION != $CURR_VERSION ]
+if [ $TRAVIS_PULL_REQUEST == true ] 
+  then
+    [ $PREV_VERSION != $CURR_VERSION ]
+fi

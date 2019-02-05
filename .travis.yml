@@ -8,16 +8,16 @@ branches:
     # - development
 
 before_script:
-  # - sh scripts/travis-check-version.sh
-  - sh scripts/travis-install-kubectl.sh
+  - sh scripts/travis-check-version.sh
   - docker pull michaelkoconnor/chatty-cathy || true
 
 script:
   - sh scripts/travis-build.sh
 
-after_script:
+# after_script:
 
 before_deploy:
+  - sh scripts/travis-install-kubectl.sh
   - docker login -u "michaelkoconnor" -p "${DOCKERHUB_PASS}"
 
 deploy:
