@@ -24,6 +24,7 @@ deploy:
   provider: script
   script:
     - docker push michaelkoconnor/chatty-cathy:$PACKAGE_VERSION
-    # - kubectl set image deployments/chatty-cathy chatty-cathy=michaelkoconnor/chatty-cathy:latest
+    # - kubectl set image deployments/chatty-cathy-deployment chatty-cathy=michaelkoconnor/chatty-cathy:latest
+    - kubectl set image deployments/chatty-cathy-deployment chatty-cathy=michaelkoconnor/chatty-cathy:$PACKAGE_VERSION
   on:
     branch: master
