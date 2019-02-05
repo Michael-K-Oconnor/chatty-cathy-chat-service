@@ -10,15 +10,12 @@ branches:
 before_script:
   # - sh scripts/travis-check-version.sh
   - sh scripts/travis-install-kubectl.sh
-  # - cat ${HOME}/.kube/config
   - docker pull michaelkoconnor/chatty-cathy || true
 
 script:
   - sh scripts/travis-build.sh
 
 after_script:
-  # - docker images
-  # kubectl config set clusters.ChattyCathyMain.certificate-authority-data "$CERTIFICATE_AUTHORITY_DATA"
 
 before_deploy:
   - docker login -u "michaelkoconnor" -p "${DOCKERHUB_PASS}"
@@ -27,7 +24,6 @@ deploy:
   provider: script
   script:
     - docker push michaelkoconnor/chatty-cathy
-    # - kubectl rolling-update deployments/chatty-cathy --image=michaelkoconnor/chatty-cathy:$CURR_VERSION
-    - kubectl set image deployments/chatty-cathy chatty-cathy=michaelkoconnor/chatty-cathy:latest
+    # - kubectl set image deployments/chatty-cathy chatty-cathy=michaelkoconnor/chatty-cathy:latest
   on:
     branch: master
