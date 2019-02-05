@@ -9,7 +9,6 @@ branches:
 
 before_script:
   - [ $TRAVIS_PULL_REQUEST == true ] && sh scripts/travis-check-version.sh
-  - sh scripts/travis-install-kubectl.sh
   - docker pull michaelkoconnor/chatty-cathy || true
 
 script:
@@ -18,6 +17,7 @@ script:
 after_script:
 
 before_deploy:
+  - sh scripts/travis-install-kubectl.sh
   - docker login -u "michaelkoconnor" -p "${DOCKERHUB_PASS}"
 
 deploy:
