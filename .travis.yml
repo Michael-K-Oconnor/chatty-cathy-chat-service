@@ -23,7 +23,7 @@ before_deploy:
 deploy:
   provider: script
   script:
-    sh scripts/travis-deploy.sh
+    /bin/sh scripts/travis-deploy.sh
     # - echo $PACKAGE_VERSION
     # - docker push michaelkoconnor/chatty-cathy
     # - kubectl set image deployments/chatty-cathy-deployment chatty-cathy=michaelkoconnor/chatty-cathy:latest
