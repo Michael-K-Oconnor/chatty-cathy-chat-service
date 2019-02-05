@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   chatty-cathy:
-    image: michaelkoconnor/chatty-cathy
+    image: michaelkoconnor/chatty-cathy:1.0.0
     build: .
     environment:
       NODE_ENV: production

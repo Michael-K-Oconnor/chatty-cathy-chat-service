@@ -9,8 +9,7 @@ PACKAGE_VERSION=$(cat package.json \
 
 echo $PACKAGE_VERSION
 
-docker build --pull --cache-from michaelkoconnor/chatty-cathy \
-  --tag michaelkoconnor/chatty-cathy:$PACKAGE_VERSION .
+docker build -t michaelkoconnor/chatty-cathy:$PACKAGE_VERSION .
 
 docker run -d -p 4000:4000 \
   -e NODE_ENV=test \
