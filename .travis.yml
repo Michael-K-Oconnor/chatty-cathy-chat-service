@@ -8,7 +8,7 @@ branches:
     # - development
 
 before_script:
-  # - sh scripts/travis-check-version.sh
+  - sh scripts/travis-check-version.sh
   - sh scripts/travis-install-kubectl.sh
   - docker pull michaelkoconnor/chatty-cathy || true
 
@@ -22,12 +22,6 @@ before_deploy:
 
 deploy:
   provider: script
-  script:
-    bash scripts/travis-deploy.sh
-    # chmod +x scripts/travis-deploy.sh && bash scripts/travis-deploy.sh
-    # - echo $PACKAGE_VERSION
-    # - docker push michaelkoconnor/chatty-cathy
-    # - kubectl set image deployments/chatty-cathy-deployment chatty-cathy=michaelkoconnor/chatty-cathy:latest
-    # - kubectl set image deployments/chatty-cathy-deployment chatty-cathy=michaelkoconnor/chatty-cathy:$PACKAGE_VERSION
+  script: bash scripts/travis-deploy.sh
   on:
     branch: master
