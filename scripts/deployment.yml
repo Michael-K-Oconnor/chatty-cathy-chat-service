@@ -41,7 +41,8 @@ spec:
     spec:
       containers:
         - name: chatty-cathy
-          image: michaelkoconnor/chatty-cathy:latest
+          image: michaelkoconnor/chatty-cathy
+          imagePullPolicy: Always
           ports:
             - containerPort: 4000
           env:

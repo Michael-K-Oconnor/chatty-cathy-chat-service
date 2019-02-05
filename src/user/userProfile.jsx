@@ -27,7 +27,7 @@ class UserProfile extends React.Component {
         <img className="profileImg" src={profilePic} alt={username} />
         <div>{username}</div>
         <div>{handle}</div>
-        <div>Number of messages= {numMessages}</div>
+        <div>Num of messages= {numMessages}</div>
       </div>
     );
   }
