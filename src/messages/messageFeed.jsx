@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import io from 'socket.io-client';
 import MessageInput from './messageInput';
 import Message from './message';
 
@@ -10,6 +11,16 @@ class MessageFeed extends React.Component {
     this.state = {
       messages: []
     };
+    // may need to change with microservice architecutre
+    this.socket = io(window.location.origin, {
+      reconnect: true
+    });
+    this.socket.on('newMessageForClient', msg => {
+      const { messages } = this.state;
+      this.setState({
+        messages: messages.concat([msg])
+      });
+    });
   }
 
   componentDidMount = () => {
@@ -29,22 +40,14 @@ class MessageFeed extends React.Component {
         params: { roomId }
       })
       .then(result => {
-        this.setState({
-          messages: result.data
-        });
+        this.setState({ messages: result.data });
       });
   };
 
   submitMessage = message => {
     const { userId, roomId } = this.props;
-    const postBody = {
-      message,
-      userId,
-      roomId
-    };
-    axios.post(`${window.location.origin}/api/messages`, postBody).then(() => {
-      this.getMessages();
-    });
+    const postBody = { message, userId, roomId };
+    this.socket.emit('chatMessageSubmitted', postBody);
   };
 
   render() {

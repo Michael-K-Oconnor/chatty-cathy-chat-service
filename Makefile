@@ -1,8 +1,11 @@
-run:
-	docker-compose up -d --build
+build-run:
+	docker-compose up --build chatty-cathy
 
 build:
 	docker-compose build chatty-cathy
+
+run:
+	docker-compose up chatty-cathy
 
 test:
 	docker-compose up --build test

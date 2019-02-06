@@ -27,11 +27,7 @@ class App extends React.Component {
           <UserProfile userId={userId} />
         </div>
         <div className="MessageFeed">
-          <MessageFeed
-            className="MessageFeed"
-            roomId={roomId}
-            userId={userId}
-          />
+          <MessageFeed className="MessageFeed" roomId={roomId} userId={userId} />
         </div>
         <div className="ChatroomSelect">
           <ChatroomSelect handleRoomSelect={this.handleRoomSelect} />
