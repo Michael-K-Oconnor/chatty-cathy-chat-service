@@ -7,9 +7,9 @@ const redis = require('socket.io-redis');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+
 const db = require('../db/db.js');
 
-// io.adapter(redis({ host: process.env.REDIS_ENDPOINT, port: 6379 }));
 io.adapter(redis({ host: 'cache', port: 6379 }));
 
 const asyncMiddleware = fn => (req, res, next) => {
@@ -22,22 +22,16 @@ app.use(express.static('dist'));
 app.use(bodyParser.json());
 
 io.on('connection', socket => {
+  socket.join('messages');
   console.log('a user connected');
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
 
-  socket.on('newMessageCreated', msg => {
-    console.log('Recieved message from redis');
-    socket.emit('newMessageForClient', msg);
-  });
-
   socket.on('chatMessageSubmitted', async msg => {
+    // await db.createMessage(msg);
     console.log('Message created');
-    await db.createMessage(msg);
-    // TODO - add timestamp to emit
-    // socket.adapter.emit('newMessageCreated', msg);
-    socket.adapter.emit('newMessageCreated', msg);
+    io.emit('newMessageForClient', msg);
   });
 });
 

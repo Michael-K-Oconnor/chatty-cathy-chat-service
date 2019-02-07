@@ -11,8 +11,7 @@ class MessageFeed extends React.Component {
     this.state = {
       messages: []
     };
-    // may need to change with microservice architecutre
-    this.socket = io(window.location.origin, {
+    this.socket = io(`${window.location.origin}`, {
       reconnect: true
     });
     this.socket.on('newMessageForClient', msg => {
