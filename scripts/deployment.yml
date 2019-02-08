@@ -1,0 +1,96 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: chatty-cathy-service
+spec:
+  selector:
+    app: chatty-cathy
+  ports:
+    - protocol: 'TCP'
+      # Port accessible inside cluster
+      port: 4000
+      # Port to forward to inside the pod
+      targetPort: 4000
+      # Port accessible outside cluster
+      nodePort: 30002
+    # - name: http
+    #   protocol: TCP
+    #   port: 80
+    #   targetPort: 9376
+    # - name: https
+    #   protocol: TCP
+    #   port: 443
+    #   targetPort: 9377
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1 #extensions/v1beta1 #apps/v1
+kind: Deployment
+metadata:
+  name: chatty-cathy-deployment
+  labels:
+    app: chatty-cathy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: chatty-cathy
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 76%
+  template:
+    metadata:
+      name: chatty-cathy-pod
+      labels:
+        app: chatty-cathy
+    spec:
+      containers:
+        - name: chatty-cathy
+          image: michaelkoconnor/chatty-cathy
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: '300Mi'
+            requests:
+              memory: '100Mi'
+          ports:
+            - containerPort: 4000
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 4000
+          #     initialDelaySeconds: 10
+          #     periodSeconds: 30
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 4000
+          #     initialDelaySeconds: 5
+          #     periodSeconds: 5
+          #     successThreshold: 1
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: chatty-cathy-secret
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: chatty-cathy-secret
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: chatty-cathy-secret
+                  key: DB_PASS
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: chatty-cathy-secret
+                  key: DB_HOST
