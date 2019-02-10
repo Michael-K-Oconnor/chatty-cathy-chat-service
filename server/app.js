@@ -6,7 +6,7 @@ const redis = require('socket.io-redis');
 
 const app = express();
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, { path: '/socket/messages/socket.io' });
 
 const db = require('../db/db.js');
 
@@ -18,7 +18,8 @@ const asyncMiddleware = fn => (req, res, next) => {
 
 app.use(morgan('dev'));
 app.use(helmet());
-app.use(express.static('dist'));
+// app.use(cors());
+// app.use(express.static('dist'));
 app.use(bodyParser.json());
 
 io.on('connection', socket => {
@@ -36,7 +37,7 @@ io.on('connection', socket => {
 });
 
 app.get(
-  '/api/messages',
+  '/api/messages/messages',
   asyncMiddleware(async (req, res) => {
     if (req.query.userId) {
       const result = await db.getMessagesByUser(req.query.userId);
@@ -51,7 +52,7 @@ app.get(
 // TODO - function might not be necessary,
 // but would need to remove tests as we
 app.post(
-  '/api/messages',
+  '/api/messages/messages',
   asyncMiddleware(async (req, res) => {
     await db.createMessage(req.body);
     res.sendStatus(201);
@@ -59,7 +60,7 @@ app.post(
 );
 
 app.get(
-  '/api/chatrooms',
+  '/api/messages/chatrooms',
   asyncMiddleware(async (req, res) => {
     const result = await db.getChatrooms();
     res.json(result);
@@ -67,7 +68,7 @@ app.get(
 );
 
 app.post(
-  '/api/chatrooms',
+  '/api/messages/chatrooms',
   asyncMiddleware(async (req, res) => {
     await db.createChatroom(req.body);
     res.sendStatus(201);
@@ -75,7 +76,7 @@ app.post(
 );
 
 app.get(
-  '/api/users/:userId',
+  '/api/messages/users/:userId',
   asyncMiddleware(async (req, res) => {
     const result = await db.getUserData(req.params.userId);
     res.json(result);
@@ -83,7 +84,7 @@ app.get(
 );
 
 app.post(
-  '/api/users',
+  '/api/messages/users',
   asyncMiddleware(async (req, res) => {
     await db.createUser(req.body);
     res.sendStatus(201);
