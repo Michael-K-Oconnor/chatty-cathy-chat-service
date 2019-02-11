@@ -22,6 +22,11 @@ app.use(helmet());
 // app.use(express.static('dist'));
 app.use(bodyParser.json());
 
+app.get('/healthz', (req, res) => {
+  // console.log('healthyCheck')
+  res.sendStatus(200);
+});
+
 io.on('connection', socket => {
   socket.join('messages');
   console.log('a user connected');

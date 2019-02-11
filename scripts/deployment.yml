@@ -2,10 +2,13 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: chatty-cathy-service
+  name: chat-service
+  labels:
+    app: chatty-cathy
+    resource: chat-service
 spec:
   selector:
-    app: chatty-cathy
+    resource: chat-deployment
   ports:
     - protocol: 'TCP'
       # Port accessible inside cluster
@@ -14,28 +17,21 @@ spec:
       targetPort: 4000
       # Port accessible outside cluster
       nodePort: 30002
-    # - name: http
-    #   protocol: TCP
-    #   port: 80
-    #   targetPort: 9376
-    # - name: https
-    #   protocol: TCP
-    #   port: 443
-    #   targetPort: 9377
   type: LoadBalancer
 
 ---
-apiVersion: apps/v1 #extensions/v1beta1 #apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chatty-cathy-deployment
+  name: chat-deployment
   labels:
     app: chatty-cathy
+    resource: chat-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: chatty-cathy
+      resource: chat-pod
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -43,13 +39,14 @@ spec:
       maxUnavailable: 76%
   template:
     metadata:
-      name: chatty-cathy-pod
+      name: chat-pod
       labels:
         app: chatty-cathy
+        resource: chat-pod
     spec:
       containers:
-        - name: chatty-cathy
-          image: michaelkoconnor/chatty-cathy
+        - name: chat-container
+          image: michaelkoconnor/chatty-cathy-chat-service
           imagePullPolicy: Always
           resources:
             limits:
@@ -58,19 +55,19 @@ spec:
               memory: '100Mi'
           ports:
             - containerPort: 4000
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: 4000
-          #     initialDelaySeconds: 10
-          #     periodSeconds: 30
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: 4000
-          #     initialDelaySeconds: 5
-          #     periodSeconds: 5
-          #     successThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 4000
+              initialDelaySeconds: 10
+              periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 4000
+              initialDelaySeconds: 5
+              periodSeconds: 5
+              successThreshold: 1
           env:
             - name: NODE_ENV
               value: production
