@@ -59,15 +59,15 @@ spec:
             httpGet:
               path: /healthz
               port: 4000
-              initialDelaySeconds: 10
-              periodSeconds: 30
+            initialDelaySeconds: 10
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /healthz
               port: 4000
-              initialDelaySeconds: 5
-              periodSeconds: 5
-              successThreshold: 1
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
           env:
             - name: NODE_ENV
               value: production

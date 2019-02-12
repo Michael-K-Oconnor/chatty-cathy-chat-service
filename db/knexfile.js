@@ -5,10 +5,10 @@ module.exports = {
   development: {
     client: 'postgresql',
     connection: {
-      database: 'chattycathytest',
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      host: process.env.DB_HOST
+      database: 'chattycathy',
+      user: 'admin',
+      password: 'admin',
+      host: 'postgres'
     },
     pool: {
       min: 2,
@@ -18,7 +18,7 @@ module.exports = {
       directory: path.join(__dirname, './migrations')
     },
     seeds: {
-      directory: path.join(__dirname, './migrations')
+      directory: path.join(__dirname, './seeds')
     }
   },
   test: {
@@ -53,10 +53,10 @@ module.exports = {
       max: 10
     },
     migrations: {
-      directory: './migrations'
+      directory: path.join(__dirname, './migrations')
     },
     seeds: {
-      directory: './seeds'
+      directory: path.join(__dirname, './seeds')
     }
   }
 };

@@ -18,11 +18,12 @@ const createUser = ({ username, handle, numMessages, profilePic }) =>
 // ///  MESSAGES QUERIES  ////////
 // ///////////////////////////////
 
-const getMessagesByRoom = roomId =>
+const getMessagesByRoomId = roomId =>
   db('messages')
     .join('users', 'messages.userId', 'users.userId')
     .select(
       'messages.message',
+      'messages.messageId',
       'messages.created_at',
       'messages.updated_at',
       'users.username',
@@ -30,7 +31,7 @@ const getMessagesByRoom = roomId =>
     )
     .where({ roomId });
 
-const getMessagesByUser = userId =>
+const getMessagesByUserId = userId =>
   db('messages')
     .join('users', 'messages.userId', 'users.userId')
     .join('chatrooms', 'messages.roomId', 'chatrooms.roomId')
@@ -38,14 +39,30 @@ const getMessagesByUser = userId =>
       'messages.message',
       'messages.created_at',
       'messages.updated_at',
+      'messages.messageId',
       'users.username',
       'users.handle',
       'chatrooms.roomname'
     )
     .where('messages.userId', userId);
 
+const getMessageByMessageId = messageId =>
+  db('messages')
+    .join('users', 'messages.userId', 'users.userId')
+    .select(
+      'messages.message',
+      'messages.messageId',
+      'messages.created_at',
+      'messages.updated_at',
+      'users.username',
+      'users.handle'
+    )
+    .where({ messageId });
+
 const createMessage = ({ message, userId, roomId }) =>
-  db('messages').insert({ message, userId, roomId });
+  db('messages')
+    .insert({ message, userId, roomId })
+    .returning('messageId');
 
 // ///////////////////////////////
 // ///////  ROOMS QUERIES  ///////
@@ -53,7 +70,15 @@ const createMessage = ({ message, userId, roomId }) =>
 
 const getChatrooms = () => db('chatrooms').select();
 
-const createChatroom = ({ roomname }) => db('chatrooms').insert({ roomname });
+const createChatroom = ({ roomname }) =>
+  db('chatrooms')
+    .insert({ roomname })
+    .returning('roomId');
+
+const getChatroomByRoomId = roomId =>
+  db('chatrooms')
+    .select()
+    .where({ roomId });
 
 // ///////////////////////////////
 // ///////     EXPORTS    ////////
@@ -62,9 +87,11 @@ const createChatroom = ({ roomname }) => db('chatrooms').insert({ roomname });
 module.exports = {
   getUserData,
   createUser,
-  getMessagesByRoom,
-  getMessagesByUser,
+  getMessagesByRoomId,
+  getMessagesByUserId,
+  getMessageByMessageId,
   createMessage,
   getChatrooms,
+  getChatroomByRoomId,
   createChatroom
 };

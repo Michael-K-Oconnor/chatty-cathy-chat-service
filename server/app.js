@@ -23,21 +23,40 @@ app.use(helmet());
 app.use(bodyParser.json());
 
 app.get('/healthz', (req, res) => {
-  // console.log('healthyCheck')
   res.sendStatus(200);
 });
 
-io.on('connection', socket => {
-  socket.join('messages');
+const messagesNsp = io.of('/messages');
+const chatroomsNsp = io.of('/chatrooms');
+
+messagesNsp.on('connection', socket => {
+  socket.on('joinChatroomChannel', roomId => {
+    let rooms = Object.keys(socket.rooms);
+    rooms.forEach(room => {
+      if (room !== socket.id) {
+        socket.leave(room);
+      }
+    });
+    socket.join(`${roomId}`);
+  });
+
+  socket.on('chatMessageSubmitted', async msg => {
+    const messageId = await db.createMessage(msg);
+    const newMessage = await db.getMessageByMessageId(messageId[0]);
+    messagesNsp.to(`${msg.roomId}`).emit('newMessageForClient', newMessage[0]);
+  });
+});
+
+chatroomsNsp.on('connection', socket => {
   console.log('a user connected');
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
 
-  socket.on('chatMessageSubmitted', async msg => {
-    // await db.createMessage(msg);
-    console.log('Message created');
-    io.emit('newMessageForClient', msg);
+  socket.on('chatroomSubmitted', async roomname => {
+    let roomId = await db.createChatroom(roomname);
+    let newChatroom = await db.getChatroomByRoomId(roomId[0]);
+    chatroomsNsp.emit('newChatroomForClient', newChatroom[0]);
   });
 });
 
@@ -45,17 +64,18 @@ app.get(
   '/api/messages/messages',
   asyncMiddleware(async (req, res) => {
     if (req.query.userId) {
-      const result = await db.getMessagesByUser(req.query.userId);
+      const result = await db.getMessagesByUserId(req.query.userId);
       res.json(result);
     } else if (req.query.roomId) {
-      const result = await db.getMessagesByRoom(req.query.roomId);
+      const result = await db.getMessagesByRoomId(req.query.roomId);
+      res.json(result);
+    } else if (req.query.messageId) {
+      const result = await db.getMessageByMessageId(req.query.messageId);
       res.json(result);
     }
   })
 );
 
-// TODO - function might not be necessary,
-// but would need to remove tests as we
 app.post(
   '/api/messages/messages',
   asyncMiddleware(async (req, res) => {

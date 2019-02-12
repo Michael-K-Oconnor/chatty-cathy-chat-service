@@ -9,7 +9,8 @@
     "test": "jest",
     "knex-rollback": "knex --knexfile ./db/knexfile.js migrate:rollback",
     "knex-migrate": "knex --knexfile ./db/knexfile.js migrate:latest",
-    "knex-seed": "knex --knexfile ./db/knexfile.js seed:run"
+    "knex-seed": "knex --knexfile ./db/knexfile.js seed:run",
+    "knex-remake": "knex --knexfile ./db/knexfile.js migrate:rollback && knex --knexfile ./db/knexfile.js migrate:latest && knex --knexfile ./db/knexfile.js seed:run"
   },
   "keywords": [],
   "repository": {
