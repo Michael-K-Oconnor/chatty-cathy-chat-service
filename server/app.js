@@ -41,18 +41,17 @@ messagesNsp.on('connection', socket => {
   });
 
   socket.on('chatMessageSubmitted', async msg => {
-    const messageId = await db.createMessage(msg);
-    const newMessage = await db.getMessageByMessageId(messageId[0]);
+    let messageId = await db.createMessage(msg);
+    let newMessage = await db.getMessageByMessageId(messageId[0]);
+    messagesNsp.to(`${msg.roomId}`).emit('newMessageForClient', newMessage[0]);
+    newMessage = await axios.get('http://metaphorpsum.com/paragraphs/1/2');
+    messageId = await db.createMessage({ userId: 2, roomId: msg.roomId, message: newMessage });
+    newMessage = await db.getMessageByMessageId(messageId[0]);
     messagesNsp.to(`${msg.roomId}`).emit('newMessageForClient', newMessage[0]);
   });
 });
 
 chatroomsNsp.on('connection', socket => {
-  console.log('a user connected');
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-
   socket.on('chatroomSubmitted', async roomname => {
     let roomId = await db.createChatroom(roomname);
     let newChatroom = await db.getChatroomByRoomId(roomId[0]);
